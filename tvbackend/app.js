@@ -46,12 +46,20 @@ function constructProgramList(programs, date) {
 
     if (programDate === date) {
       // Include this program since it has the date we are asked for:
+      const from = moment(program.upphaf).format('hh:mm');
+      const to = moment(from, 'hh:mm').add(program.slott, 'minutes').format('hh:mm');
+
       const item = {
         dagsetning: date,
         isltitill: program.isltitill,
         upphaf: program.upphaf,
         thattur: program.thattur,
-        thattafjoldi: program.thattafjoldi
+        thattafjoldi: program.thattafjoldi,
+        bannad: program.bannad,
+        lysing: program.lysing,
+        midill_heiti: program.midill_heiti,
+        from,
+        to
       };
       retval.push(item);
     }

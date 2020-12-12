@@ -31,7 +31,6 @@ export default function MainPage() {
     const selInitialDate = theDates[1];
     set_selectedDate(selInitialDate);
 
-    console.log('Getting the channels...');
     // Populate the channel dropdown list:
     axios.get('/channels').then(response => {
       let theChannels = response.data;
@@ -45,7 +44,6 @@ export default function MainPage() {
 
         // Populate the main tv program list:
         axios.get(`/programs/${selChannel}/${selInitialDate}`).then(response => {
-          console.log(JSON.stringify(response));
           set_programs(response.data);
         });
       }
@@ -89,7 +87,7 @@ export default function MainPage() {
       <Form.Group as={Row} controlId='programListRow'>
         <ListGroup>
           {programs.map((p, index) => <ListGroup.Item key={index}>
-            {p.isltitill} {p.upphaf} {p.thattur} af {p.thattafjoldi}
+            {p.isltitill} {p.upphaf} {p.thattur} af {p.thattafjoldi} {p.bannad} {p.lysing} {p.midill_heiti} {p.from} {p.to}
           </ListGroup.Item>)}
         </ListGroup>
       </Form.Group>
