@@ -44,6 +44,7 @@ export default function MainPage() {
 
         // Populate the main tv program list:
         axios.get(`/programs/${selChannel}/${selInitialDate}`).then(response => {
+          //console.log('Got the program list: ' + JSON.stringify(response));
           set_programs(response.data);
         });
       }
@@ -66,6 +67,7 @@ export default function MainPage() {
 
     // Populate the main tv program list:
     axios.get(`/programs/${channel}/${selectedDate}`).then(response => {
+      //console.log('Got the program list: ' + JSON.stringify(response));
       set_programs(response.data);
     });
   }
