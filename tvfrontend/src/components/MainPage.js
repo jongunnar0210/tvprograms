@@ -5,6 +5,7 @@ import '../App.css';
 import { Form, Col, ListGroup, Row } from "react-bootstrap";
 import moment from "moment";
 
+// Main component
 export default function MainPage() {
   const [programs, set_programs] = useState([]);
   const [dates, set_dates] = useState([]);
