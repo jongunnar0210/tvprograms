@@ -1,10 +1,18 @@
 import React from 'react'
-import { useEffect, useState } from "react";
 import '../App.css';
 import { ListGroup, Form, Col } from "react-bootstrap";
+import Bannad from './Bannad';
 
-// Main component
 export default function ProgramExpanded({program, index}) {
+  function getThattaTexti() {
+    if (program.thattafjoldi == 0)
+      return null;
+    else if (program.thattafjoldi < program.thattur)
+      return <li>Þáttur {program.thattur}</li>
+
+    return <li>Þáttur {program.thattur} af {program.thattafjoldi}</li>
+  }
+
   return (
     <ListGroup.Item key={index} className='programExpandedList'>
       <Form.Row className='align-items-center'>
@@ -20,9 +28,9 @@ export default function ProgramExpanded({program, index}) {
               <ul>
                 <li>{program.midill_heiti}</li>
                 <li>{program.from} - {program.to}</li>
-                <li>{program.thattur} af {program.thattafjoldi}</li>
-                <li>IMDB Rating: {program.vote_average}</li>
-                <li>{program.bannad}</li>
+                {getThattaTexti()}
+                {program.vote_average != null && <li>IMDB Rating: {program.vote_average}</li>}
+                {program.bannad && <li><Bannad bannad={program.bannad} /></li>}
               </ul>
             </Col>
           </Form.Row>
@@ -39,15 +47,6 @@ export default function ProgramExpanded({program, index}) {
           }
         </Col>
       </Form.Row>
-
-      {/* <div>
-        {program.upphaf}
-      </div>
-      {
-        program.poster_path && <div>
-          <img src={program.poster_path} alt="img"/>
-        </div>
-      } */}
     </ListGroup.Item>
   );
 }

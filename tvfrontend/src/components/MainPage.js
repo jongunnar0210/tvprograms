@@ -5,6 +5,8 @@ import '../App.css';
 import { Form, Col, Row } from "react-bootstrap";
 import moment from "moment";
 import ProgramList from './ProgramList';
+import Header from './Header';
+import { Fragment } from 'react';
 
 // Main component
 export default function MainPage() {
@@ -61,6 +63,7 @@ export default function MainPage() {
   function changeDate(date) {
     console.log('Changed date to ' + date);
     set_selectedDate(date);
+    set_programs([]);
 
     // Populate the main tv program list:
     axios.get(`/programs/${selectedChannel}/${date}`).then(response => {
@@ -71,6 +74,7 @@ export default function MainPage() {
   function changeChannel(channel) {
     console.log('Changed channel to ' + channel + ' selectedDate: ' + selectedDate);
     set_selectedChannel(channel);
+    set_programs([]);
 
     // Populate the main tv program list:
     axios.get(`/programs/${channel}/${selectedDate}`).then(response => {
@@ -79,24 +83,30 @@ export default function MainPage() {
   }
 
   return (
-    <Form className='mainPage'>
-      <Form.Group as={Row} controlId='dropdownListsRow'>
-        <Col sm={6}>
-          <Form.Control as='select' value={selectedDate} onChange={e => changeDate(e.target.value)}>
-            {dates.map(d => <option key={d} value={d}>{d}</option>)}
-          </Form.Control>        
-        </Col>
-        <Col sm={6}>
-          <Form.Control as='select' value={selectedChannel} onChange={e => changeChannel(e.target.value)}>
-            {channels.map(c => <option key={c} value={c}>{c}</option>)}
-          </Form.Control>
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} controlId='programListRow'>
-        <Col sm={12}>
-          <ProgramList programs={programs}/>
-        </Col>
-      </Form.Group>
-    </Form>
+    <Fragment>
+      <Header></Header>
+      <Form className='mainPage'>
+        <Form.Group as={Row} controlId='dropdownListsRow'>
+          <Col sm={4}>
+            <Form.Control as='select' value={selectedDate} onChange={e => changeDate(e.target.value)}>
+              {dates.map(d => <option key={d} value={d}>{d}</option>)}
+            </Form.Control>        
+          </Col>
+          <Col sm={4}>
+            <Form.Control as='select' value={selectedChannel} onChange={e => changeChannel(e.target.value)}>
+              {channels.map(c => <option key={c} value={c}>{c}</option>)}
+            </Form.Control>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId='programListRow'>
+          <Col sm={12}>
+            {
+              programs.length > 0 ? (<ProgramList programs={programs}/>) : (<Form.Label className='labelLoading'>Sæki efni...</Form.Label>)
+            }
+            <ProgramList programs={programs}/>
+          </Col>
+        </Form.Group>
+      </Form>
+    </Fragment>
   )
 }

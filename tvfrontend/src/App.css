@@ -1,3 +1,8 @@
+body {
+  /*background: url('https://www.freewebheaders.com/wp-content/gallery/christmas-hero-headers/christmas-snowman-lantern-on-snow-blue-sky-and-mountains-graphic-hero-header-hd-1920x1080.jpg');*/
+  /*background: url('https://www.freewebheaders.com/wp-content/gallery/christmas-hero-headers/blue-christmas-tree-with-glowing-stars-and-ornaments-vector-hero-header-hd-1920x1080.jpeg');*/
+}
+
 .mainPage {
   margin-top: 25px;
   margin-left: 80px;
@@ -46,37 +51,56 @@
   padding-left: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.bannad {
+  border-radius: 40px;
   color: white;
+  width: 22px;
+  text-align: center;
+  font-size: medium;
+  font-weight: bold;
 }
 
-.App-link {
-  color: #61dafb;
+.bannadGreen {
+  background-color: green;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.bannadYellow {
+  background-color: rgb(211, 198, 29);
+}
+
+.bannadRed {
+  background-color: red;
+}
+
+header {
+  height: 80px;
+  background-image: url('https://www.freewebheaders.com/wp-content/gallery/christmas/multicolor-holiday-christmas-decorations-with-blue-silver-ribbon-snowflakes-header-background-hd-1920x720.jpg');
+  background-size: cover;
+  /*border-bottom: black 2px solid;*/
+}
+
+header img {
+  width: 50px;
+  height: 50px;
+  margin-left: 80px;
+  margin-top: 0;
+}
+
+header li {
+  display: inline;
+  margin-top: 15px;
+}
+
+header .form-label {
+  color: white;
+  margin-left: 10px;
+  font-size: xx-large;
+}
+
+.labelLoading {
+  font-size: xx-large;
+  font-weight: bold;
+  color: darkblue;  
+  display: block;
+  text-align: center;
 }

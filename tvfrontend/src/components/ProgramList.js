@@ -4,7 +4,6 @@ import '../App.css';
 import { ListGroup } from "react-bootstrap";
 import ProgramExpanded from './ProgramExpanded';
 
-// Main component
 export default function ProgramList({programs}) {
   return (
     <ListGroup>
