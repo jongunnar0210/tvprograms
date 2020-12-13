@@ -1,27 +1,49 @@
-/*.App {
-  text-align: center;
-}
-*/
-
-/*.row, .col {
-  margin-right: 0 !important;
-  margin-left: 0 !important;
-}*/
-
 .mainPage {
   margin-top: 25px;
   margin-left: 80px;
   margin-right: 80px;
 }
 
+.list-group {
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+  border: none;
+}
+
+.list-group-item {
+  border-left: none !important;
+  border-right: none !important;
+}
+
 .programExpandedList {
-  padding-top: 20px !important;
-  padding-bottom: 20px !important;
+  padding-top: 25px !important;
+  padding-bottom: 25px !important;
   padding-left: 80px !important;
 }
 
 .programExpandedList .form-row {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.programExpandedList ul {
+  margin-bottom: 0px !important;
+}
+
+.programExpandedList li {
+  display: inline;
+  margin-left: 10xp;
+  margin-right: 10px;
+  border-right: gray solid 1px;
+  padding-right: 10px;
+}
+
+.programExpandedList li:last-child {
+  border-right: none;
+}
+
+.programExpandedList ul {
+  padding-left: 0;
 }
 
 .App-logo {

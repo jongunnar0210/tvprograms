@@ -7,37 +7,36 @@ import { ListGroup, Form, Col } from "react-bootstrap";
 export default function ProgramExpanded({program, index}) {
   return (
     <ListGroup.Item key={index} className='programExpandedList'>
-      <Form.Row>
-        <Col>
-          <h4>{program.isltitill}</h4>
-        </Col>
-      </Form.Row>
-        
-      <Form.Row>
-        <Col sm={7}>
+      <Form.Row className='align-items-center'>
+        <Col sm={10}>
           <Form.Row>
-            <Col sm={2}>
-              {program.midill_heiti}
+            <Col>
+              <h4>{program.isltitill}</h4>
             </Col>
-            <Col sm={2}>
-              {program.from} - {program.to}
+          </Form.Row>
+            
+          <Form.Row>
+            <Col sm={7}>
+              <ul>
+                <li>{program.midill_heiti}</li>
+                <li>{program.from} - {program.to}</li>
+                <li>{program.thattur} af {program.thattafjoldi}</li>
+                <li>IMDB Rating: {program.vote_average}</li>
+                <li>{program.bannad}</li>
+              </ul>
             </Col>
-            <Col sm={2}>
-              {program.thattur} af {program.thattafjoldi}
-            </Col>
-            <Col sm={2}>
-              {program.bannad}
-            </Col>
-            <Col sm={3}>
-              IMDB Rating: {program.vote_average}
+          </Form.Row>
+
+          <Form.Row>
+            <Col>
+              {program.lysing}
             </Col>
           </Form.Row>
         </Col>
-      </Form.Row>
-
-      <Form.Row>
-        <Col>
-          {program.lysing}
+        <Col sm={2}>
+          {
+            program.poster_path && <img src={program.poster_path} alt="img"/>
+          }
         </Col>
       </Form.Row>
 
