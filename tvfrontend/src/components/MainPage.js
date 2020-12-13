@@ -7,6 +7,7 @@ import moment from "moment";
 import ProgramList from './ProgramList';
 import Header from './Header';
 import { Fragment } from 'react';
+import { ProgramsContext } from "./Context";
 
 // Main component
 export default function MainPage() {
@@ -15,8 +16,11 @@ export default function MainPage() {
   const [channels, set_channels] = useState([]);
   const [selectedDate, set_selectedDate] = useState('');
   const [selectedChannel, set_selectedChannel] = useState('');
+  const [expandedIndex, set_expandedIndex] = useState(-1);
 
   const DATE_FORMAT = 'YYYY-MM-DD';
+
+  //const ProgramsContext = createContext();
 
   useEffect(() => {
     async function fetchInitialData() {
@@ -47,11 +51,11 @@ export default function MainPage() {
           const selChannel = theChannels[0];
           set_selectedChannel(selChannel);
 
-          // Populate the main tv program list and add an 'expanded' property to each program:
+          // Populate the main tv program list:
           response = await axios.get(`/programs/${selChannel}/${selInitialDate}`);
-          response.data.forEach(program => {
-            program.expanded = false;
-          });
+          // response.data.forEach(program => {
+          //   program.expanded = false;
+          // });
           set_programs(response.data);
         }
       } catch (error) {
@@ -65,11 +69,11 @@ export default function MainPage() {
   async function fetchProgramList(channel, date) {
     set_programs([]);
 
-    // Populate the main tv program list and add an 'expanded' property to each program:
+    // Populate the main tv program list:
     const response = await axios.get(`/programs/${channel}/${date}`);
-    response.data.forEach(program => {
-      program.expanded = false;
-    });
+    // response.data.forEach(program => {
+    //   program.expanded = false;
+    // });
     set_programs(response.data);
   }
 
@@ -87,40 +91,42 @@ export default function MainPage() {
     fetchProgramList(channel, selectedDate);
   }
 
-  function toggleExpanded(index) {
-    console.log('in main toggle. programs length: ' + programs.length);
-    let copyPrograms = [...programs];
-    if (index < copyPrograms.length && copyPrograms[index].expanded != null) {
-      copyPrograms[index].expanded = !copyPrograms[index].expanded;
-      set_programs(copyPrograms);
-    }
-  }
+  // function toggleExpanded(index) {
+  //   console.log('in main toggle. programs length: ' + programs.length);
+  //   let copyPrograms = [...programs];
+  //   if (index < copyPrograms.length && copyPrograms[index].expanded != null) {
+  //     copyPrograms[index].expanded = !copyPrograms[index].expanded;
+  //     set_programs(copyPrograms);
+  //   }
+  // }
 
   return (
     <Fragment>
       <Header></Header>
-      <Form className='mainPage'>
-        <Form.Group as={Row} controlId='dropdownListsRow'>
-          <Col sm={4}>
-            <Form.Control as='select' value={selectedDate} onChange={e => changeDate(e.target.value)}>
-              {dates.map(d => <option key={d} value={d}>{d}</option>)}
-            </Form.Control>        
-          </Col>
-          <Col sm={4}>
-            <Form.Control as='select' value={selectedChannel} onChange={e => changeChannel(e.target.value)}>
-              {channels.map(c => <option key={c} value={c}>{c}</option>)}
-            </Form.Control>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} controlId='programListRow'>
-          <Col sm={12}>
-            {
-              programs.length > 0 ? (<ProgramList programs={programs}/>) : (<Form.Label className='labelLoading'>Sæki efni...</Form.Label>)
-            }
-            <ProgramList programs={programs} toggleExpanded={toggleExpanded} />
-          </Col>
-        </Form.Group>
-      </Form>
+      <ProgramsContext.Provider value={{ expandedIndex, set_expandedIndex }}>
+        <div className='mainPage'>
+          <Form.Group as={Row} controlId='dropdownListsRow'>
+            <Col sm={4}>
+              <Form.Control as='select' value={selectedDate} onChange={e => changeDate(e.target.value)}>
+                {dates.map(d => <option key={d} value={d}>{d}</option>)}
+              </Form.Control>        
+            </Col>
+            <Col sm={4}>
+              <Form.Control as='select' value={selectedChannel} onChange={e => changeChannel(e.target.value)}>
+                {channels.map(c => <option key={c} value={c}>{c}</option>)}
+              </Form.Control>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId='programListRow'>
+            <Col sm={12}>
+              {
+                programs.length > 0 ? (<ProgramList programs={programs}/>) : (<Form.Label className='labelLoading'>Sæki efni...</Form.Label>)
+              }
+              <ProgramList programs={programs} />
+            </Col>
+          </Form.Group>
+        </div>
+      </ProgramsContext.Provider>
     </Fragment>
   )
 }

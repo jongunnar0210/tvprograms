@@ -12,11 +12,11 @@ let posterSize = '';
 
 // GetChannels:
 app.get('/channels', async (req, res, next) => {
-  console.log('Was asked for channels');
+  //console.log('Was asked for channels');
 
   try {
     const response = await axios.get('https://api.stod2.is/dagskra/api');
-    console.log('Got channels');
+    //console.log('Got channels');
     res.send(response.data);
   } catch (error) {
     console.log(`Failed getting channels: ${error}`);
@@ -29,13 +29,13 @@ app.get('/programs/:channel/:date', async (req, res, next) => {
   let channel = req.params.channel;
   let date = req.params.date;
 
-  console.log(`Was asked for programs. Channel: ${channel}. Date: ${date}`);
+  //console.log(`Was asked for programs. Channel: ${channel}. Date: ${date}`);
 
   // RUV has another api with other property names than all the others so handle that specifically:
   if (channel === 'RÚV') {
     try {
       const response = await axios.get('https://apis.is/tv/ruv');
-      console.log('Got RUV programs');
+      //console.log('Got RUV programs');
       res.send(constructProgramListRUV(response.data.results));
     } catch (error) {
       console.log(`Error getting programs: ${error}`);
@@ -44,7 +44,7 @@ app.get('/programs/:channel/:date', async (req, res, next) => {
   } else {
     try {
       const response = await axios.get(`https://api.stod2.is/dagskra/api/${channel}`);
-      console.log('Got programs');
+      //console.log('Got programs');
 
       const retval = await constructProgramListNormal(response.data, date, channel);
       res.send(retval);

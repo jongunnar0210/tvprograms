@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../App.css';
 import { ListGroup, Form, Col } from "react-bootstrap";
 import Bannad from './Bannad';
+import { ProgramsContext } from "./Context";
 
-export default function ProgramExpanded({program, index, toggleExpanded}) {
+export default function ProgramExpanded({program, index}) {
+  const { expandedIndex, set_expandedIndex } = useContext(ProgramsContext);
+
+  function handleClick() {
+    if (expandedIndex === index) {
+      set_expandedIndex(-1);
+    } else {
+      set_expandedIndex(index);
+    }
+  }
   function getThattaTexti() {
     if (program.thattafjoldi === 0)
       return null;
@@ -14,7 +24,7 @@ export default function ProgramExpanded({program, index, toggleExpanded}) {
   }
 
   return (
-    <ListGroup.Item key={index} className='programExpandedList' onClick={e => toggleExpanded(index)}>
+    <ListGroup.Item key={index} className='programExpandedList' onClick={handleClick}>
       <Form.Row className='align-items-center'>
         <Col sm={10}>
           <Form.Row>
