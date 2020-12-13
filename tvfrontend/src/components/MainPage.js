@@ -36,7 +36,7 @@ export default function MainPage() {
 
       // Populate the channel dropdown list:
       try {
-        const response = await axios.get('/channels');
+        let response = await axios.get('/channels');
         
         let theChannels = response.data;
         theChannels.push("RÚV");  // Add our extra channel, RÚV.
@@ -47,15 +47,12 @@ export default function MainPage() {
           const selChannel = theChannels[0];
           set_selectedChannel(selChannel);
 
-          // Populate the main tv program list:
+          // Populate the main tv program list and add an 'expanded' property to each program:
           response = await axios.get(`/programs/${selChannel}/${selInitialDate}`);
-          for (const program of response.data) {
+          response.data.forEach(program => {
             program.expanded = false;
-          }
+          });
           set_programs(response.data);
-          // axios.get(`/programs/${selChannel}/${selInitialDate}`).then(response => {
-          //   set_programs(response.data);
-          // });
         }
       } catch (error) {
         console.log('Error getting channels: ' + error);
@@ -68,15 +65,12 @@ export default function MainPage() {
   async function fetchProgramList(channel, date) {
     set_programs([]);
 
-    // Populate the main tv program list:
+    // Populate the main tv program list and add an 'expanded' property to each program:
     const response = await axios.get(`/programs/${channel}/${date}`);
-    for (const program of response.data) {
+    response.data.forEach(program => {
       program.expanded = false;
-    }
+    });
     set_programs(response.data);
-    // axios.get(`/programs/${channel}/${date}`).then(response => {
-    //   set_programs(response.data);
-    // });
   }
 
   function changeDate(date) {
@@ -91,6 +85,15 @@ export default function MainPage() {
     set_selectedChannel(channel);
 
     fetchProgramList(channel, selectedDate);
+  }
+
+  function toggleExpanded(index) {
+    console.log('in main toggle. programs length: ' + programs.length);
+    let copyPrograms = [...programs];
+    if (index < copyPrograms.length && copyPrograms[index].expanded != null) {
+      copyPrograms[index].expanded = !copyPrograms[index].expanded;
+      set_programs(copyPrograms);
+    }
   }
 
   return (
@@ -114,7 +117,7 @@ export default function MainPage() {
             {
               programs.length > 0 ? (<ProgramList programs={programs}/>) : (<Form.Label className='labelLoading'>Sæki efni...</Form.Label>)
             }
-            <ProgramList programs={programs}/>
+            <ProgramList programs={programs} toggleExpanded={toggleExpanded} />
           </Col>
         </Form.Group>
       </Form>

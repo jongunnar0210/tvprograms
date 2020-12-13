@@ -3,7 +3,7 @@ import '../App.css';
 import { ListGroup, Form, Col } from "react-bootstrap";
 import Bannad from './Bannad';
 
-export default function ProgramExpanded({program, index}) {
+export default function ProgramExpanded({program, index, toggleExpanded}) {
   function getThattaTexti() {
     if (program.thattafjoldi === 0)
       return null;
@@ -14,7 +14,7 @@ export default function ProgramExpanded({program, index}) {
   }
 
   return (
-    <ListGroup.Item key={index} className='programExpandedList'>
+    <ListGroup.Item key={index} className='programExpandedList' onClick={e => toggleExpanded(index)}>
       <Form.Row className='align-items-center'>
         <Col sm={10}>
           <Form.Row>
