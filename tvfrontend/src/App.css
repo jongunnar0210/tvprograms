@@ -3,6 +3,27 @@
 }
 */
 
+/*.row, .col {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}*/
+
+.mainPage {
+  margin-top: 25px;
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.programExpandedList {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+  padding-left: 80px !important;
+}
+
+.programExpandedList .form-row {
+  margin-bottom: 5px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

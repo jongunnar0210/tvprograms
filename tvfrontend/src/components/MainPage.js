@@ -93,7 +93,9 @@ export default function MainPage() {
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId='programListRow'>
-        <ProgramList programs={programs}/>
+        <Col sm={12}>
+          <ProgramList programs={programs}/>
+        </Col>
       </Form.Group>
     </Form>
   )
