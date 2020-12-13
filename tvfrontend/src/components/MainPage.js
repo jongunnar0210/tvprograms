@@ -33,6 +33,8 @@ export default function MainPage() {
 
     // Populate the channel dropdown list:
     axios.get('/channels').then(response => {
+      console.log('channels response: ' + JSON.stringify(response));
+
       let theChannels = response.data;
       theChannels.push("RÚV");  // Add our extra channel, RÚV.
       set_channels(response.data);
@@ -89,7 +91,14 @@ export default function MainPage() {
       <Form.Group as={Row} controlId='programListRow'>
         <ListGroup>
           {programs.map((p, index) => <ListGroup.Item key={index}>
-            {p.isltitill} {p.upphaf} {p.thattur} af {p.thattafjoldi} {p.bannad} {p.lysing} {p.midill_heiti} {p.from} {p.to}
+            <div>
+              {p.isltitill} {p.upphaf} {p.thattur} af {p.thattafjoldi} {p.bannad} {p.lysing} {p.midill_heiti} {p.from} {p.to} {p.vote_average}
+            </div>
+            {
+              p.poster_path && <div>
+                <img src={p.poster_path} alt="img"/>
+              </div>
+            }
           </ListGroup.Item>)}
         </ListGroup>
       </Form.Group>
