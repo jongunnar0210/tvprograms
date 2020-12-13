@@ -48,9 +48,14 @@ export default function MainPage() {
           set_selectedChannel(selChannel);
 
           // Populate the main tv program list:
-          axios.get(`/programs/${selChannel}/${selInitialDate}`).then(response => {
-            set_programs(response.data);
-          });
+          response = await axios.get(`/programs/${selChannel}/${selInitialDate}`);
+          for (const program of response.data) {
+            program.expanded = false;
+          }
+          set_programs(response.data);
+          // axios.get(`/programs/${selChannel}/${selInitialDate}`).then(response => {
+          //   set_programs(response.data);
+          // });
         }
       } catch (error) {
         console.log('Error getting channels: ' + error);
@@ -60,26 +65,32 @@ export default function MainPage() {
     fetchInitialData();
   }, []);
 
-  function changeDate(date) {
-    console.log('Changed date to ' + date);
-    set_selectedDate(date);
+  async function fetchProgramList(channel, date) {
     set_programs([]);
 
     // Populate the main tv program list:
-    axios.get(`/programs/${selectedChannel}/${date}`).then(response => {
-      set_programs(response.data);
-    });
+    const response = await axios.get(`/programs/${channel}/${date}`);
+    for (const program of response.data) {
+      program.expanded = false;
+    }
+    set_programs(response.data);
+    // axios.get(`/programs/${channel}/${date}`).then(response => {
+    //   set_programs(response.data);
+    // });
+  }
+
+  function changeDate(date) {
+    console.log('Changed date to ' + date);
+    set_selectedDate(date);
+
+    fetchProgramList(selectedChannel, date);
   }
 
   function changeChannel(channel) {
     console.log('Changed channel to ' + channel + ' selectedDate: ' + selectedDate);
     set_selectedChannel(channel);
-    set_programs([]);
 
-    // Populate the main tv program list:
-    axios.get(`/programs/${channel}/${selectedDate}`).then(response => {
-      set_programs(response.data);
-    });
+    fetchProgramList(channel, selectedDate);
   }
 
   return (

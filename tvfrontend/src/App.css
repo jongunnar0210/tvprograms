@@ -117,3 +117,8 @@ header .form-label {
   display: block;
   text-align: center;
 }
+
+.list-group-item:hover {
+  background-color: whitesmoke;
+  cursor: pointer;
+}
