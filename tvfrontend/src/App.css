@@ -1,7 +1,13 @@
-body {
+/*body {
   /*background: url('https://www.freewebheaders.com/wp-content/gallery/christmas-hero-headers/christmas-snowman-lantern-on-snow-blue-sky-and-mountains-graphic-hero-header-hd-1920x1080.jpg');*/
   /*background: url('https://www.freewebheaders.com/wp-content/gallery/christmas-hero-headers/blue-christmas-tree-with-glowing-stars-and-ornaments-vector-hero-header-hd-1920x1080.jpeg');*/
-}
+  /*background: url('https://image.freepik.com/free-photo/christmas-background_1048-9603.jpg');*/
+  /*background-size: cover;*/
+/*}*/
+
+/*.App {
+  background-color: whitesmoke;
+}*/
 
 .mainPage {
   margin-top: 25px;
@@ -82,8 +88,14 @@ header {
 header img {
   width: 50px;
   height: 50px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-15%);
+}
+
+header ul {
   margin-left: 80px;
-  margin-top: 0;
+  padding-left: 0;
 }
 
 header li {
@@ -95,6 +107,7 @@ header .form-label {
   color: white;
   margin-left: 10px;
   font-size: xx-large;
+  margin-top: 15px;
 }
 
 .labelLoading {

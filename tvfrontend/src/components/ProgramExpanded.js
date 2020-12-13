@@ -5,7 +5,7 @@ import Bannad from './Bannad';
 
 export default function ProgramExpanded({program, index}) {
   function getThattaTexti() {
-    if (program.thattafjoldi == 0)
+    if (program.thattafjoldi === 0)
       return null;
     else if (program.thattafjoldi < program.thattur)
       return <li>Þáttur {program.thattur}</li>

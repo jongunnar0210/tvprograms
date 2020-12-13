@@ -8,7 +8,7 @@ export default function ProgramList({programs}) {
   return (
     <ListGroup>
       {programs.map((program, index) =>
-        <ProgramExpanded program={program} index={index} />
+        <ProgramExpanded program={program} index={index} key={index} />
       )}
     </ListGroup>
   );
