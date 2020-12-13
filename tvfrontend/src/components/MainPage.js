@@ -2,8 +2,9 @@ import React from 'react'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import '../App.css';
-import { Form, Col, ListGroup, Row } from "react-bootstrap";
+import { Form, Col, Row } from "react-bootstrap";
 import moment from "moment";
+import ProgramList from './ProgramList';
 
 // Main component
 export default function MainPage() {
@@ -16,41 +17,45 @@ export default function MainPage() {
   const DATE_FORMAT = 'YYYY-MM-DD';
 
   useEffect(() => {
-    // Populate the date dropdown list of dates from yesterday to one week into the future:
-    let theDates = [];
-    let aDate = new Date();
-    aDate.setDate(aDate.getDate() - 1);
-    theDates.push(moment(aDate).format(DATE_FORMAT));
-    for (let index = 0; index < 8; index++) {
-      aDate.setDate(aDate.getDate() + 1);
+    async function fetchInitialData() {
+      // Populate the date dropdown list of dates from today to one week into the future:
+      let theDates = [];
+      let aDate = new Date();
       theDates.push(moment(aDate).format(DATE_FORMAT));
-    }
-    set_dates(theDates);
-
-    // Set the selected date to today:
-    const selInitialDate = theDates[1];
-    set_selectedDate(selInitialDate);
-
-    // Populate the channel dropdown list:
-    axios.get('/channels').then(response => {
-      console.log('channels response: ' + JSON.stringify(response));
-
-      let theChannels = response.data;
-      theChannels.push("RÚV");  // Add our extra channel, RÚV.
-      set_channels(response.data);
-
-      // Set the selected channel:
-      if (theChannels.length > 0) {
-        const selChannel = theChannels[0];
-        set_selectedChannel(selChannel);
-
-        // Populate the main tv program list:
-        axios.get(`/programs/${selChannel}/${selInitialDate}`).then(response => {
-          //console.log('Got the program list: ' + JSON.stringify(response));
-          set_programs(response.data);
-        });
+      for (let index = 0; index < 7; index++) {
+        aDate.setDate(aDate.getDate() + 1);
+        theDates.push(moment(aDate).format(DATE_FORMAT));
       }
-    });
+      set_dates(theDates);
+
+      // Set the selected date to today:
+      const selInitialDate = theDates[0];
+      set_selectedDate(selInitialDate);
+
+      // Populate the channel dropdown list:
+      try {
+        const response = await axios.get('/channels');
+        
+        let theChannels = response.data;
+        theChannels.push("RÚV");  // Add our extra channel, RÚV.
+        set_channels(response.data);
+
+        // Set the selected channel:
+        if (theChannels.length > 0) {
+          const selChannel = theChannels[0];
+          set_selectedChannel(selChannel);
+
+          // Populate the main tv program list:
+          axios.get(`/programs/${selChannel}/${selInitialDate}`).then(response => {
+            set_programs(response.data);
+          });
+        }
+      } catch (error) {
+        console.log('Error getting channels: ' + error);
+      }
+    }
+
+    fetchInitialData();
   }, []);
 
   function changeDate(date) {
@@ -69,7 +74,6 @@ export default function MainPage() {
 
     // Populate the main tv program list:
     axios.get(`/programs/${channel}/${selectedDate}`).then(response => {
-      //console.log('Got the program list: ' + JSON.stringify(response));
       set_programs(response.data);
     });
   }
@@ -89,18 +93,7 @@ export default function MainPage() {
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId='programListRow'>
-        <ListGroup>
-          {programs.map((p, index) => <ListGroup.Item key={index}>
-            <div>
-              {p.isltitill} {p.upphaf} {p.thattur} af {p.thattafjoldi} {p.bannad} {p.lysing} {p.midill_heiti} {p.from} {p.to} {p.vote_average}
-            </div>
-            {
-              p.poster_path && <div>
-                <img src={p.poster_path} alt="img"/>
-              </div>
-            }
-          </ListGroup.Item>)}
-        </ListGroup>
+        <ProgramList programs={programs}/>
       </Form.Group>
     </Form>
   )

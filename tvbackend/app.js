@@ -11,7 +11,7 @@ let imdbImageBaseUrl = '';
 let posterSize = '';
 
 // GetChannels:
-app.get('/channels', async (req, res) => {
+app.get('/channels', async (req, res, next) => {
   console.log('Was asked for channels');
 
   try {
@@ -19,13 +19,13 @@ app.get('/channels', async (req, res) => {
     console.log('Got channels');
     res.send(response.data);
   } catch (error) {
-    console.log(`Error getting channels: ${error}`);
-    res.send(error);
+    console.log(`Failed getting channels: ${error}`);
+    next(error);
   }
 });
 
 // GetPrograms:
-app.get('/programs/:channel/:date', async (req, res) => {
+app.get('/programs/:channel/:date', async (req, res, next) => {
   let channel = req.params.channel;
   let date = req.params.date;
 
@@ -38,7 +38,8 @@ app.get('/programs/:channel/:date', async (req, res) => {
       console.log('Got RUV programs');
       res.send(constructProgramListRUV(response.data.results));
     } catch (error) {
-      res.send(error);
+      console.log(`Error getting programs: ${error}`);
+      next(error);
     }
   } else {
     try {
@@ -48,7 +49,8 @@ app.get('/programs/:channel/:date', async (req, res) => {
       const retval = await constructProgramListNormal(response.data, date, channel);
       res.send(retval);
     } catch (error) {
-      res.send(error);      
+      console.log(`Error getting programs: ${error}`);
+      next(error);      
     }
   }
 });
