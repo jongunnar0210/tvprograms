@@ -19,12 +19,16 @@ export default function ProgramList({programs}) {
             <Form.Label>TÍMI</Form.Label>
           </Col>
 
-          <Col lg={6} className="d-none d-lg-block">
+          <Col lg={3} className="d-none d-lg-block">
             <Form.Label>DAGSKRÁRLIÐUR</Form.Label>
           </Col>
 
-          <Col lg={5} className="d-none d-lg-block">
+          <Col lg={3} className="d-none d-lg-block">
             <Form.Label>NÁNAR</Form.Label>
+          </Col>
+
+          <Col lg={5} className="d-none d-lg-block">
+            <Form.Label>LÝSING</Form.Label>
           </Col>
         </Form.Row>
       </ListGroup.Item>
