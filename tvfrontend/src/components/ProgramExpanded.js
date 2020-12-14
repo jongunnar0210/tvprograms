@@ -35,9 +35,13 @@ export default function ProgramExpanded({program, index}) {
           </Form.Row>
             
           <Form.Row>
-            <Col md={7}>
+            <Col lg={2} sm={12}>
               <ul>
                 <li>{program.midill_heiti}</li>
+              </ul>
+            </Col>
+            <Col lg={6} sm={12}>
+              <ul>
                 <li>{program.from} - {program.to}</li>
                 {getThattaTexti()}
                 {program.vote_average != null && <li><Form.Label className='imdbLabel'>IMDb</Form.Label> {program.vote_average}</li>}
