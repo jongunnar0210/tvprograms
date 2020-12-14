@@ -8,6 +8,7 @@ import ProgramList from './ProgramList';
 import Header from './Header';
 import { Fragment } from 'react';
 import { ProgramsContext } from "./Context";
+import { readableDate } from "./Utils";
 
 // Main component
 export default function MainPage() {
@@ -89,17 +90,6 @@ export default function MainPage() {
     }
 
     fetchProgramList(channel, selectedDate);
-  }
-
-  function readableDate(d) {
-    return new Date(d).toLocaleDateString(
-      'is-IS',
-      {
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long'
-      }
-    );
   }
 
   function getDisabled() {
