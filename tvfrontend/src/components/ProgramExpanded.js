@@ -14,6 +14,7 @@ export default function ProgramExpanded({program, index}) {
       set_expandedIndex(index);
     }
   }
+  
   function getThattaTexti() {
     if (program.thattafjoldi === 0)
       return null;

@@ -41,6 +41,20 @@
   margin-bottom: 0px !important;
 }
 
+.programCollapsedList li {
+  display: inline;
+  margin-right: 10px;
+}
+
+.programCollapsedList h5 {
+  display: inline;
+}
+
+.programCollapsedList ul {
+  padding-left: 0;
+  padding-top: 15px;
+}
+
 .programExpandedList li {
   display: inline;
   margin-left: 10xp;
@@ -121,4 +135,25 @@ header .form-label {
 .list-group-item:hover {
   background-color: whitesmoke;
   cursor: pointer;
+}
+
+.shortDesc {
+  width : 490px;
+  overflow:hidden;
+  display:inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.imdbLabel {
+  color: black;
+  font-weight: bold;
+  background-color: #F2DB83;
+  border-radius: 3px;
+}
+
+.listgroupHeader {
+  border-top: none !important;
+  font-weight: bold;
+  color: gray;
 }
