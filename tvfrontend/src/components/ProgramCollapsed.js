@@ -3,9 +3,11 @@ import '../App.css';
 import { ListGroup, Form, Col } from "react-bootstrap";
 import Bannad from './Bannad';
 import { ProgramsContext } from "./Context";
+import { useSpring, animated, config } from "react-spring";
 
 export default function ProgramCollapsed({program, index}) {
   const { expandedIndex, set_expandedIndex } = useContext(ProgramsContext);
+  const upProps = useSpring({ from: { opacity: 0, marginTop: 50 }, opacity: 1, config: config.gentle, marginTop: 0 });
 
   function handleClick() {
     if (expandedIndex === index) {
@@ -26,28 +28,30 @@ export default function ProgramCollapsed({program, index}) {
 
   return (
     <ListGroup.Item key={index} className='programCollapsedList' onClick={handleClick}>
-      <Form.Row className='align-items-center'>
-        <Col lg={1} md={12}>
-          <Form.Label>{program.from}</Form.Label>
-        </Col>
+      <animated.div style={upProps}>
+        <Form.Row className='align-items-center'>
+          <Col lg={1} md={12}>
+            <Form.Label>{program.from}</Form.Label>
+          </Col>
 
-        <Col lg={3} md={4} sm={12}>
-          <ul>
-            <li><h5>{program.isltitill}</h5></li>
-          </ul>
-        </Col>
-        <Col lg={3} md={6} sm={12}>
-          <ul>
-            {program.vote_average != null && <li><Form.Label className='imdbLabel'>IMDb</Form.Label> {program.vote_average}</li>}
-            {program.bannad && <li><Bannad bannad={program.bannad} /></li>}
-            {getThattaTexti()}
-          </ul>
-        </Col>
+          <Col lg={3} md={4} sm={12}>
+            <ul>
+              <li><h5>{program.isltitill}</h5></li>
+            </ul>
+          </Col>
+          <Col lg={3} md={6} sm={12}>
+            <ul>
+              {program.vote_average != null && <li><Form.Label className='imdbLabel'>IMDb</Form.Label> {program.vote_average}</li>}
+              {program.bannad && <li><Bannad bannad={program.bannad} /></li>}
+              {getThattaTexti()}
+            </ul>
+          </Col>
 
-        <Col lg={5} md={12} className='d-none d-sm-block'>
-          <Form.Label className='shortDesc'>{program.lysing}</Form.Label>
-        </Col>
-      </Form.Row>
+          <Col lg={5} md={12} className='d-none d-sm-block'>
+            <Form.Label className='shortDesc'>{program.lysing}</Form.Label>
+          </Col>
+        </Form.Row>
+      </animated.div>
     </ListGroup.Item>
   );
 }
