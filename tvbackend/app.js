@@ -55,6 +55,17 @@ app.get('/programs/:channel/:date', async (req, res, next) => {
   }
 });
 
+function getLysingNormal(program) {
+  let retval = program.lysing;
+  if (program.leikstjori) {
+    retval += ' Leikstjóri: ' + program.leikstjori + '.';
+  }
+  if (program.adalhlutverk) {
+    retval += ' Aðalhlutverk: ' + program.adalhlutverk + '.';
+  }
+  return retval;
+}
+
 async function constructProgramListNormal(programs, date, channel) {
   let retval = [];
 
@@ -74,7 +85,7 @@ async function constructProgramListNormal(programs, date, channel) {
         thattur: program.thattur,
         thattafjoldi: program.thattafjoldi,
         bannad: program.bannad,
-        lysing: program.lysing,
+        lysing: getLysingNormal(program),
         midill_heiti: program.midill_heiti,
         from,
         to

@@ -27,11 +27,11 @@ export default function ProgramCollapsed({program, index}) {
   return (
     <ListGroup.Item key={index} className='programCollapsedList' onClick={handleClick}>
       <Form.Row className='align-items-center'>
-        <Col sm={1}>
+        <Col lg={1}>
           <Form.Label>{program.from}</Form.Label>
         </Col>
 
-        <Col sm={5}>
+        <Col lg={5}>
           <ul>
             <li><h5>{program.isltitill}</h5></li>
             {program.vote_average != null && <li><Form.Label className='imdbLabel'>IMDb</Form.Label> {program.vote_average}</li>}
@@ -40,7 +40,7 @@ export default function ProgramCollapsed({program, index}) {
           </ul>
         </Col>
 
-        <Col sm={6}>
+        <Col lg={6}>
           <Form.Label className='shortDesc'>{program.lysing}</Form.Label>
         </Col>
       </Form.Row>

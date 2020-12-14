@@ -9,19 +9,21 @@ import { ProgramsContext } from "./Context";
 export default function ProgramList({programs}) {
   const { expandedIndex } = useContext(ProgramsContext);
 
+  console.log('programs: ' + JSON.stringify(programs));
+
   return (
     <ListGroup>
       <ListGroup.Item key='listgroupHeader' className='listgroupHeader'>
         <Form.Row className='align-items-center'>
-          <Col sm={1}>
+          <Col lg={1} className="d-none d-lg-block">
             <Form.Label>TÍMI</Form.Label>
           </Col>
 
-          <Col sm={5}>
+          <Col lg={5} className="d-none d-lg-block">
             <Form.Label>DAGSKRÁRLIÐUR</Form.Label>
           </Col>
 
-          <Col sm={6}>
+          <Col lg={6} className="d-none d-lg-block">
             <Form.Label>NÁNAR</Form.Label>
           </Col>
         </Form.Row>

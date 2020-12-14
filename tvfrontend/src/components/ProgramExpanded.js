@@ -14,7 +14,7 @@ export default function ProgramExpanded({program, index}) {
       set_expandedIndex(index);
     }
   }
-  
+
   function getThattaTexti() {
     if (program.thattafjoldi === 0)
       return null;
@@ -27,7 +27,7 @@ export default function ProgramExpanded({program, index}) {
   return (
     <ListGroup.Item key={index} className='programExpandedList' onClick={handleClick}>
       <Form.Row className='align-items-center'>
-        <Col sm={10}>
+        <Col md={10}>
           <Form.Row>
             <Col>
               <h4>{program.isltitill}</h4>
@@ -35,12 +35,12 @@ export default function ProgramExpanded({program, index}) {
           </Form.Row>
             
           <Form.Row>
-            <Col sm={7}>
+            <Col md={7}>
               <ul>
                 <li>{program.midill_heiti}</li>
                 <li>{program.from} - {program.to}</li>
                 {getThattaTexti()}
-                {program.vote_average != null && <li>IMDB Rating: {program.vote_average}</li>}
+                {program.vote_average != null && <li><Form.Label className='imdbLabel'>IMDb</Form.Label> {program.vote_average}</li>}
                 {program.bannad && <li><Bannad bannad={program.bannad} /></li>}
               </ul>
             </Col>
@@ -52,7 +52,7 @@ export default function ProgramExpanded({program, index}) {
             </Col>
           </Form.Row>
         </Col>
-        <Col sm={2}>
+        <Col md={2}>
           {
             program.poster_path && <img src={program.poster_path} alt="img"/>
           }

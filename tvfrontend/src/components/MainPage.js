@@ -20,8 +20,6 @@ export default function MainPage() {
 
   const DATE_FORMAT = 'YYYY-MM-DD';
 
-  //const ProgramsContext = createContext();
-
   useEffect(() => {
     async function fetchInitialData() {
       // Populate the date dropdown list of dates from today to one week into the future:
@@ -53,6 +51,7 @@ export default function MainPage() {
 
           // Populate the main tv program list:
           response = await axios.get(`/programs/${selChannel}/${selInitialDate}`);
+          //console.log('programs: ' + JSON.stringify(response.data));
           set_programs(response.data);
         }
       } catch (error) {
@@ -72,7 +71,7 @@ export default function MainPage() {
   }
 
   function changeDate(date) {
-    console.log('Changed date to ' + date);
+    //console.log('Changed date to ' + date);
     set_selectedDate(date);
     set_expandedIndex(-1);
 
@@ -80,11 +79,31 @@ export default function MainPage() {
   }
 
   function changeChannel(channel) {
-    console.log('Changed channel to ' + channel + ' selectedDate: ' + selectedDate);
+    //console.log('Changed channel to ' + channel + ' selectedDate: ' + selectedDate);
     set_selectedChannel(channel);
     set_expandedIndex(-1);
 
+    // RUV only gives us today:
+    if (channel === 'RÚV') {
+      set_selectedDate(dates[0]);
+    }
+
     fetchProgramList(channel, selectedDate);
+  }
+
+  function readableDate(d) {
+    return new Date(d).toLocaleDateString(
+      'is-IS',
+      {
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long'
+      }
+    );
+  }
+
+  function getDisabled() {
+    return selectedChannel === 'RÚV';
   }
 
   return (
@@ -93,23 +112,22 @@ export default function MainPage() {
       <ProgramsContext.Provider value={{ expandedIndex, set_expandedIndex }}>
         <div className='mainPage'>
           <Form.Group as={Row} controlId='dropdownListsRow'>
-            <Col sm={4}>
-              <Form.Control as='select' value={selectedDate} onChange={e => changeDate(e.target.value)}>
-                {dates.map(d => <option key={d} value={d}>{d}</option>)}
+            <Col lg={4} md={5} sm={12}>
+              <Form.Control as='select' value={selectedDate} onChange={e => changeDate(e.target.value)} className='dropdown dataDrop' disabled={getDisabled()}>
+                {dates.map(d => <option key={d} value={d}>{readableDate(d)}</option>)}
               </Form.Control>        
             </Col>
-            <Col sm={4}>
-              <Form.Control as='select' value={selectedChannel} onChange={e => changeChannel(e.target.value)}>
-                {channels.map(c => <option key={c} value={c}>{c}</option>)}
+            <Col lg={4} md={5} sm={12}>
+              <Form.Control as='select' value={selectedChannel} onChange={e => changeChannel(e.target.value)} className='dropdown dataDrop'>
+                {channels.map(c => <option key={c} value={c}>{c.toUpperCase()}</option>)}
               </Form.Control>
             </Col>
           </Form.Group>
           <Form.Group as={Row} controlId='programListRow'>
-            <Col sm={12}>
+            <Col md={12}>
               {
                 programs.length > 0 ? (<ProgramList programs={programs}/>) : (<Form.Label className='labelLoading'>Sæki efni...</Form.Label>)
               }
-              <ProgramList programs={programs} />
             </Col>
           </Form.Group>
         </div>
