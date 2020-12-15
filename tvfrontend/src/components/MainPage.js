@@ -18,8 +18,10 @@ export default function MainPage() {
   const [selectedDate, set_selectedDate] = useState('');
   const [selectedChannel, set_selectedChannel] = useState('');
   const [expandedIndex, set_expandedIndex] = useState(-1);
+  const [backendError, set_backendError] = useState(false);
 
   const DATE_FORMAT = 'YYYY-MM-DD';
+  const TIMEOUT = 15000;  // 15 seconds.
 
   useEffect(() => {
     async function fetchInitialData() {
@@ -39,7 +41,7 @@ export default function MainPage() {
 
       // Populate the channel dropdown list:
       try {
-        let response = await axios.get('/channels');
+        let response = await axios.get('/channels', { timeout: TIMEOUT });
         
         let theChannels = response.data;
         theChannels.push("RÚV");  // Add our extra channel, RÚV.
@@ -51,12 +53,13 @@ export default function MainPage() {
           set_selectedChannel(selChannel);
 
           // Populate the main tv program list:
-          response = await axios.get(`/programs/${selChannel}/${selInitialDate}`);
+          response = await axios.get(`/programs/${selChannel}/${selInitialDate}`, { timeout: TIMEOUT });
           //console.log('programs: ' + JSON.stringify(response.data));
           set_programs(response.data);
         }
       } catch (error) {
         console.log('Error getting channels: ' + error);
+        set_backendError(true);
       }
     }
 
@@ -67,14 +70,20 @@ export default function MainPage() {
     set_programs([]);
 
     // Populate the main tv program list:
-    const response = await axios.get(`/programs/${channel}/${date}`);
-    set_programs(response.data);
+    try {
+      const response = await axios.get(`/programs/${channel}/${date}`, { timeout: TIMEOUT });
+      set_programs(response.data);        
+    } catch (error) {
+      console.log('Error getting programs: ' + error);
+      set_backendError(true);
+    }
   }
 
   function changeDate(date) {
     //console.log('Changed date to ' + date);
     set_selectedDate(date);
     set_expandedIndex(-1);
+    set_backendError(false);
 
     fetchProgramList(selectedChannel, date);
   }
@@ -83,6 +92,7 @@ export default function MainPage() {
     //console.log('Changed channel to ' + channel + ' selectedDate: ' + selectedDate);
     set_selectedChannel(channel);
     set_expandedIndex(-1);
+    set_backendError(false);
 
     // RUV only gives us today:
     if (channel === 'RÚV') {
@@ -94,6 +104,14 @@ export default function MainPage() {
 
   function getDisabled() {
     return selectedChannel === 'RÚV';
+  }
+
+  function displayProgramListRow() {
+    if (backendError) {
+      return <Form.Label className='labelError'>TÆKNILEGIR ÖRÐUGLEIKAR KOMU UPP. VINSAMLEGAST REYNIÐ AFTUR FLJÓTLEGA</Form.Label>
+    }
+
+    return programs.length > 0 ? (<ProgramList programs={programs}/>) : (<Form.Label className='labelLoading'>Sæki efni...</Form.Label>)
   }
 
   return (
@@ -116,7 +134,7 @@ export default function MainPage() {
           <Form.Group as={Row} controlId='programListRow'>
             <Col md={12}>
               {
-                programs.length > 0 ? (<ProgramList programs={programs}/>) : (<Form.Label className='labelLoading'>Sæki efni...</Form.Label>)
+                displayProgramListRow()
               }
             </Col>
           </Form.Group>

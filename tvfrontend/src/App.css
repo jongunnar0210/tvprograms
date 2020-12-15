@@ -130,6 +130,14 @@ header .form-label {
   text-align: center;
 }
 
+.labelError {
+  font-size: xx-large;
+  font-weight: bold;
+  color: red;  
+  display: block;
+  text-align: left;
+}
+
 .list-group-item:hover {
   background-color: whitesmoke;
   cursor: pointer;
