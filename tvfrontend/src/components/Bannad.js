@@ -2,7 +2,6 @@ import React from 'react'
 import '../App.css';
 import { Form  } from "react-bootstrap";
 
-// Main component
 export default function Bannad({bannad}) {
   function getBannadClassName() {
     if (bannad === 'Green') {

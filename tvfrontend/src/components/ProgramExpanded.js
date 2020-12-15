@@ -8,9 +8,6 @@ import { useSpring, animated, config } from "react-spring";
 export default function ProgramExpanded({program, index}) {
   const { expandedIndex, set_expandedIndex } = useContext(ProgramsContext);
   const downProps = useSpring({ from: { opacity: 0, marginTop: -50 }, opacity: 1, config: config.gentle, marginTop: 0 });
-  // const li1Props = useSpring({ from: { opacity: 0, marginTop: -50 }, opacity: 1, config: config.wobbly, marginTop: 0 });
-  // const li2Props = useSpring({ from: { opacity: 0, marginTop: -50 }, opacity: 1, config: config.stiff, marginTop: 0 });
-  // const li3Props = useSpring({ from: { opacity: 0, marginTop: -50 }, opacity: 1, config: config.slow, marginTop: 0 });
   const titleProps = useSpring({ from: { marginLeft: -100 }, friction: 40, config: config.gentle, marginLeft: 0 });
   const posterProps = useSpring({ from: { transform: 'rotateX(180deg)' }, friction: 40, config: config.slow, transform: 'rotateX(0deg)' });
 
