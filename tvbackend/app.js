@@ -12,11 +12,8 @@ let posterSize = '';
 
 // GetChannels:
 app.get('/channels', async (req, res, next) => {
-  //console.log('Was asked for channels');
-
   try {
     const response = await axios.get('https://api.stod2.is/dagskra/api');
-    //console.log('Got channels');
     res.send(response.data);
   } catch (error) {
     console.log(`Failed getting channels: ${error}`);
@@ -35,7 +32,6 @@ app.get('/programs/:channel/:date', async (req, res, next) => {
   if (channel === 'RÚV') {
     try {
       const response = await axios.get('https://apis.is/tv/ruv');
-      //console.log('Got RUV programs');
       res.send(constructProgramListRUV(response.data.results));
     } catch (error) {
       console.log(`Error getting programs: ${error}`);
@@ -43,8 +39,9 @@ app.get('/programs/:channel/:date', async (req, res, next) => {
     }
   } else {
     try {
+      const getStr = `https://api.stod2.is/dagskra/api/${channel}`;
+      //console.log('GET ' + getStr);
       const response = await axios.get(`https://api.stod2.is/dagskra/api/${channel}`);
-      //console.log('Got programs');
 
       const retval = await constructProgramListNormal(response.data, date, channel);
       res.send(retval);
@@ -96,7 +93,8 @@ async function constructProgramListNormal(programs, date, channel) {
 
   // Add the posters and ratings from imdb:
   for (const program of retval) {
-    if (!showPostersInChannel(channel) || program.birta_thatt !== 0) continue; // For now, only fetch imdb stuff from certain channels and only if it's a movie.
+    // For now, only fetch imdb stuff from certain channels and only if it's a movie:
+    if (!showPostersInChannel(channel) || program.birta_thatt !== 0 || !program.titill) continue;
 
     const imdbData = await axios.get(imdbSearchUrl + encodeURI(program.titill));
     if (imdbData.status !== 200) continue;
@@ -186,7 +184,7 @@ async function start() {
         posterSize = posterSizes[1];
 
         if (posterSize) {
-          console.log(`imdbImageBaseUrl: ${imdbImageBaseUrl}, posterSize: ${posterSize}`);
+          //console.log(`imdbImageBaseUrl: ${imdbImageBaseUrl}, posterSize: ${posterSize}`);
 
           // Start listening as a REST server:
           app.listen(port, () => {

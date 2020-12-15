@@ -9,7 +9,7 @@ import { ProgramsContext } from "./Context";
 export default function ProgramList({programs}) {
   const { expandedIndex } = useContext(ProgramsContext);
 
-  console.log('programs: ' + JSON.stringify(programs));
+  //console.log('programs: ' + JSON.stringify(programs));
 
   return (
     <ListGroup>

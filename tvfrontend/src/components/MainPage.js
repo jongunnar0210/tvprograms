@@ -71,7 +71,10 @@ export default function MainPage() {
 
     // Populate the main tv program list:
     try {
-      const response = await axios.get(`/programs/${channel}/${date}`, { timeout: TIMEOUT });
+      const getStr = `/programs/${channel}/${date}`;
+      //console.log('Fetching programs: GET ' + getStr);
+
+      const response = await axios.get(getStr, { timeout: TIMEOUT });
       set_programs(response.data);        
     } catch (error) {
       console.log('Error getting programs: ' + error);
@@ -80,7 +83,6 @@ export default function MainPage() {
   }
 
   function changeDate(date) {
-    //console.log('Changed date to ' + date);
     set_selectedDate(date);
     set_expandedIndex(-1);
     set_backendError(false);
@@ -89,7 +91,6 @@ export default function MainPage() {
   }
 
   function changeChannel(channel) {
-    //console.log('Changed channel to ' + channel + ' selectedDate: ' + selectedDate);
     set_selectedChannel(channel);
     set_expandedIndex(-1);
     set_backendError(false);
